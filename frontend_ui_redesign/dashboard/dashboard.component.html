@@ -1,0 +1,114 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Services</div>
+    <ul class="sidebar-list">
+      <li *ngFor="let service of services">
+        <span class="sidebar-icon material-icons" [ngStyle]="{'color':service.color}">{{ service.icon }}</span>
+        <span class="sidebar-label">{{ service.name }}</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main">
+    <!-- Top bar -->
+    <header class="topbar">
+      <!-- Search -->
+      <div class="search-section">
+        <span class="material-icons search-icon">search</span>
+        <input type="text" placeholder="Search devices, users, or logs" class="search-input"/>
+      </div>
+      <!-- User info -->
+      <div class="profile">
+        <div class="profile-info">
+          <div class="profile-name">{{ user.name }}</div>
+          <div class="profile-status">
+            <span class="status-dot online"></span> {{ user.status }}
+          </div>
+        </div>
+        <span class="material-icons profile-avatar">account_circle</span>
+      </div>
+    </header>
+
+    <!-- Cards row -->
+    <section class="cards-row">
+      <!-- Device Overview -->
+      <div class="card overview-card">
+        <div class="card-title">Device Overview</div>
+        <div class="card-content">
+          <span class="material-icons card-icon accent">devices_other</span>
+          <div>
+            <div class="overview-number">58</div>
+            <div class="overview-label">Total Devices</div>
+          </div>
+        </div>
+      </div>
+      <!-- Quick Stats -->
+      <div class="card stats-card">
+        <div class="card-title">Quick Stats</div>
+        <div class="stats-list">
+          <div class="stat">
+            <span class="material-icons stat-icon blue">speed</span>
+            <div>
+              <div class="stat-number">120 Mbps</div>
+              <div class="stat-label">Peak Speed</div>
+            </div>
+          </div>
+          <div class="stat">
+            <span class="material-icons stat-icon green">done_all</span>
+            <div>
+              <div class="stat-number">45</div>
+              <div class="stat-label">Active Sessions</div>
+            </div>
+          </div>
+          <div class="stat">
+            <span class="material-icons stat-icon orange">update</span>
+            <div>
+              <div class="stat-number">99.9%</div>
+              <div class="stat-label">Uptime</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chart row -->
+    <section class="charts-row">
+      <!-- Network Activity (Line) -->
+      <div class="card chart-card">
+        <div class="card-title">Network Activity</div>
+        <canvas baseChart
+                [datasets]="[{ data: networkActivity, label: 'Monthly Activity', borderColor: '#0057b8', fill: false }]"
+                [labels]="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
+                [options]="{responsive:true,scales:{x:{grid:{display:false}},y:{grid:{display:true}}}}"
+                [chartType]="'line'">
+        </canvas>
+      </div>
+      <!-- Device Acquisitions (Bar) -->
+      <div class="card chart-card">
+        <div class="card-title">Device Acquisitions</div>
+        <canvas baseChart
+                [datasets]="[{ data: deviceAcquisitions, label: 'Devices', backgroundColor: '#1ca77a' }]"
+                [labels]="['Q1', 'Q2', 'Q3', 'Q4']"
+                [options]="{responsive:true,scales:{x:{grid:{display:false}},y:{grid:{display:true}}}}"
+                [chartType]="'bar'">
+        </canvas>
+      </div>
+      <!-- Content Usage (Stacked Bar) -->
+      <div class="card chart-card">
+        <div class="card-title">Content Usage</div>
+        <canvas baseChart
+          [datasets]="contentUsage.map(cat => ({ 
+            data: [cat.q1, cat.q2, cat.q3, cat.q4],
+            label: cat.c, 
+            backgroundColor: cat.color
+          }))"
+          [labels]="['Q1', 'Q2', 'Q3', 'Q4']"
+          [options]="{responsive:true,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true}}}"
+          [chartType]="'bar'">
+        </canvas>
+      </div>
+    </section>
+  </div>
+</div>
